@@ -2,11 +2,13 @@ package br.com.jiankowalski.infrastructure.api;
 
 import br.com.jiankowalski.application.event.create.CreateEventCommand;
 import br.com.jiankowalski.application.event.create.CreateEventUseCase;
+import br.com.jiankowalski.application.event.list.ListEventsUseCase;
+import br.com.jiankowalski.domain.pagination.Pagination;
+import br.com.jiankowalski.domain.pagination.SearchQuery;
 import br.com.jiankowalski.infrastructure.event.models.CreateEventRequest;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import br.com.jiankowalski.infrastructure.event.models.EventListResponse;
+import br.com.jiankowalski.infrastructure.event.presenters.EventApiPresenter;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.UriInfo;
@@ -20,9 +22,12 @@ import static br.com.jiankowalski.domain.utils.InstantUtils.asInstant;
 public class EventResource {
 
     private final CreateEventUseCase createEventUseCase;
+    private final ListEventsUseCase listEventsUseCase;
 
-    public EventResource(final CreateEventUseCase createEventUseCase) {
+    public EventResource(final CreateEventUseCase createEventUseCase,
+                         final ListEventsUseCase listEventsUseCase) {
         this.createEventUseCase = Objects.requireNonNull(createEventUseCase);
+        this.listEventsUseCase = Objects.requireNonNull(listEventsUseCase);
     }
 
     @POST
@@ -34,5 +39,12 @@ public class EventResource {
         final var aCommand = CreateEventCommand.of(request.name(), aStartDate, aEndDate, request.institution());
         final var output = this.createEventUseCase.execute(aCommand);
         return RestResponse.created(uriInfo.getAbsolutePathBuilder().path(output.id()).build());
+    }
+
+    @GET
+    public Pagination<EventListResponse> listEvents(@QueryParam("page") @DefaultValue("0") final int page,
+                                                    @QueryParam("perPage") @DefaultValue("10") final int perPage) {
+        final var aQuery = new SearchQuery(page, perPage);
+        return listEventsUseCase.execute(aQuery).map(EventApiPresenter::present);
     }
 }
