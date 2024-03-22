@@ -35,7 +35,7 @@ public class DefaultCreateEventUseCase extends CreateEventUseCase {
         if (notification.hasError()) {
             throw new NotificationException("Não foi possível criar a instituição", notification);
         }
-        return CreateEventOutput.from(this.eventGateway.create(aEvent));
+        return CreateEventOutput.from(this.eventGateway.create(aEvent).getId().getValue());
     }
 
     private ValidationHandler validateInstitutionId(final InstitutionID aID) {

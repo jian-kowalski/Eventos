@@ -5,7 +5,7 @@ import br.com.jiankowalski.domain.validation.Error;
 
 import java.util.List;
 
-record ApiError(String message, List<Error> errors) {
+record ApiError(String message, List<Error> erros) {
     static ApiError from(final DomainException ex) {
         return new ApiError(ex.getMessage(), ex.getErrors());
     }

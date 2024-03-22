@@ -27,6 +27,6 @@ public class DefaultCreateInstitutionUseCase extends CreateInstitutionUseCase {
             throw new NotificationException("Não foi possível criar a instituição", notification);
         }
 
-        return CreateInstitutionOutput.from(this.institutionGateway.create(aInstitution));
+        return CreateInstitutionOutput.from(this.institutionGateway.create(aInstitution).getId().getValue());
     }
 }

@@ -32,7 +32,14 @@ public final class InstantUtils {
         return startAt.isAfter(finishAt);
     }
 
-    public static Instant stringToInstant(final String date) {
+    public static String asString(Instant date) {
+        if (date == null) {
+            return null;
+        }
+        return FORMAT_DATE_TIME.format(date.atZone(ZONE_ID).toLocalDateTime());
+    }
+
+    public static Instant asInstant(final String date) {
         if (date == null || date.isEmpty()) {
             return null;
         }

@@ -5,6 +5,7 @@ import br.com.jiankowalski.domain.event.EventGateway;
 import br.com.jiankowalski.infrastructure.event.persistence.EventJpaEntity;
 import br.com.jiankowalski.infrastructure.event.persistence.EventRepository;
 import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.transaction.Transactional;
 
 import java.util.Objects;
 
@@ -22,6 +23,7 @@ public class EventPostgresGateway implements EventGateway {
         return save(aEvent);
     }
 
+    @Transactional
     private Event save(final Event aEvent) {
         final var eventJpaEntity = EventJpaEntity.from(aEvent);
         eventRepository.persistAndFlush(eventJpaEntity);
