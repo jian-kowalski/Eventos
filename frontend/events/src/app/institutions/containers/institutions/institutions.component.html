@@ -1,0 +1,18 @@
+<mat-card appearance="outlined">
+  <mat-toolbar color="primary">Lista de Instituições</mat-toolbar>
+
+  <mat-card-content>
+  <div class="mat-elevation-z8" *ngIf="institutions$ | async as institutions; else loading">
+    <app-institutions-list
+      [institutions]="institutions"
+      (add)="add()"
+      (view)="view($event)">
+    </app-institutions-list>
+  </div>
+  </mat-card-content>
+  <ng-template #loading>
+    <div class="loading-spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+</mat-card>
