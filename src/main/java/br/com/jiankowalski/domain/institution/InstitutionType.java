@@ -3,7 +3,8 @@ package br.com.jiankowalski.domain.institution;
 import java.util.Arrays;
 import java.util.Optional;
 
-public enum InstitutionType {
+public enum
+InstitutionType {
     CENTRAL("Central"),
     COOPERATIVE("Cooperativa"),
     SINGULAR("Singular"),

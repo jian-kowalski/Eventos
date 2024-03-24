@@ -50,7 +50,9 @@ public class Event extends AggregateRoot<EventID> {
     ) {
         final var id = EventID.unique();
         final var now = InstantUtils.now();
-        return new Event(id, aName, false, institutionID, startAt, finishAt, now, now, null);
+        final var aEvent = new Event(id, aName, false, institutionID, startAt, finishAt, now, now, null);
+        aEvent.updateStatus();
+        return aEvent;
     }
 
     public static Event with(final EventID eventID,
@@ -77,6 +79,11 @@ public class Event extends AggregateRoot<EventID> {
         if (notification.hasError()) {
             throw new NotificationException("Falha ao validar o evento", notification);
         }
+    }
+
+    public void updateStatus() {
+        final var now = InstantUtils.now();
+        this.active = InstantUtils.isAfterDate(now, startAt) && InstantUtils.isAfterDate(finishAt, now);
     }
 
     public InstitutionID getInstitutionID() {

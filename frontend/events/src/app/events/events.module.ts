@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { AppMaterialModule } from '../shared/app-material/app-material.module';
 import { EventsRoutingModule } from './events-routing.module';
-import { EventsComponent } from './events/events.component';
+import { EventsComponent } from './containers/events/events.component';
+import { EventsListComponent } from './components/events-list/events-list.component';
 
 
 @NgModule({
   declarations: [
-    EventsComponent
+    EventsComponent,
+    EventsListComponent
   ],
   imports: [
     CommonModule,

@@ -41,7 +41,7 @@ class DefaultCreateEventUseCaseTest extends UseCaseTest {
     @Test
     public void dadosParametrosValidos_quandoChamarNovoEvento_deveRetornarOEventoInstanciado() {
         final var expectedName = "Contratação";
-        final var expectedIsActive = false;
+        final var expectedIsActive = true;
         final var expectedStartDate = InstantUtils.now().minus(1, ChronoUnit.DAYS);
         final var expectedEndDate = InstantUtils.now().plus(1, ChronoUnit.DAYS);
         final var expectedInstitutionID = InstitutionID.from(IdUtils.uuid());

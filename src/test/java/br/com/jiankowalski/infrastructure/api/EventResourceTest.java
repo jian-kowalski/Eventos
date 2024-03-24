@@ -2,7 +2,12 @@ package br.com.jiankowalski.infrastructure.api;
 
 import br.com.jiankowalski.application.event.create.CreateEventOutput;
 import br.com.jiankowalski.application.event.create.CreateEventUseCase;
+import br.com.jiankowalski.application.event.list.EventListOutput;
+import br.com.jiankowalski.application.event.list.ListEventsUseCase;
+import br.com.jiankowalski.domain.event.Event;
 import br.com.jiankowalski.domain.exceptions.NotificationException;
+import br.com.jiankowalski.domain.institution.InstitutionID;
+import br.com.jiankowalski.domain.pagination.Pagination;
 import br.com.jiankowalski.domain.utils.IdUtils;
 import br.com.jiankowalski.domain.utils.InstantUtils;
 import br.com.jiankowalski.domain.validation.handler.Notification;
@@ -18,15 +23,22 @@ import org.mockito.Mockito;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.List;
+import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.*;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.Mockito.*;
 
 @QuarkusTest
 class EventResourceTest {
 
     @InjectMock
     CreateEventUseCase createEventUseCase;
+
+    @InjectMock
+    ListEventsUseCase listEventsUseCase;
 
     @Inject
     private ObjectMapper mapper;
@@ -270,5 +282,46 @@ class EventResourceTest {
                 .and()
                 .body("erros", hasSize(expectedErrorCount))
                 .body("erros[0].message", equalTo(expectedErrorMessage));
+    }
+
+    @Test
+    public void dadosParametrosValidos_quandoChamarListarEventos_deveRetornarOsEventos() throws Exception {
+        final var expectedPage = 0;
+        final var expectedPerPage = 10;
+        final var expectedInstitution = InstitutionID.from(IdUtils.uuid());
+        final var expectedTotal = 1;
+
+        final var aEvent = Event.newEvent("Contratação", expectedInstitution, InstantUtils.now(), InstantUtils.now());
+
+        final var expectedItems = List.of(EventListOutput.from(aEvent));
+
+        when(listEventsUseCase.execute(Mockito.any()))
+                .thenReturn(new Pagination<>(expectedPage, expectedPerPage, expectedTotal, expectedItems));
+
+        given()
+                .queryParam("page", expectedPage)
+                .queryParam("perPage", expectedPerPage)
+                .queryParam("institution", expectedInstitution.getValue())
+                .when()
+                .get("/events")
+                .then()
+                .statusCode(200)
+                .header("location", nullValue())
+                .and()
+                .body("currentPage", equalTo(expectedPage))
+                .body("totalElements", equalTo(expectedPerPage))
+                .body("totalPages", equalTo(expectedTotal))
+                .body("items[0].id", equalTo(aEvent.getId().getValue()))
+                .body("items[0].name", equalTo(aEvent.getName()))
+                .body("items[0].active", equalTo(aEvent.isActive()))
+                .body("items[0].startAt", equalTo(aEvent.getStartAt().toString()))
+                .body("items[0].finishAt", equalTo(aEvent.getFinishAt().toString()))
+                .body("items[0].createdAt", equalTo(aEvent.getCreatedAt().toString()));
+
+        verify(listEventsUseCase, times(1)).execute(argThat(query ->
+                Objects.equals(expectedPage, query.page())
+                        && Objects.equals(expectedPerPage, query.perPage())
+                        && Objects.equals(expectedInstitution, query.institution())
+        ));
     }
 }

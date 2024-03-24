@@ -3,9 +3,9 @@ package br.com.jiankowalski.application.event.list;
 import br.com.jiankowalski.application.UseCaseTest;
 import br.com.jiankowalski.domain.event.Event;
 import br.com.jiankowalski.domain.event.EventGateway;
+import br.com.jiankowalski.domain.event.EventSearchQuery;
 import br.com.jiankowalski.domain.institution.InstitutionID;
 import br.com.jiankowalski.domain.pagination.Pagination;
-import br.com.jiankowalski.domain.pagination.SearchQuery;
 import br.com.jiankowalski.domain.utils.IdUtils;
 import br.com.jiankowalski.domain.utils.InstantUtils;
 import org.junit.jupiter.api.Assertions;
@@ -39,11 +39,13 @@ class ListEventsUseCaseTest extends UseCaseTest {
                 Event.newEvent("Happy hour", InstitutionID.from(IdUtils.uuid()), InstantUtils.now(), InstantUtils.now().plus(1, ChronoUnit.DAYS))
         );
 
+        final var expectedInstitution = InstitutionID.unique();
         final var expectedPage = 0;
         final var expectedPerPage = 10;
 
+
         final var aQuery =
-                new SearchQuery(expectedPage, expectedPerPage);
+                new EventSearchQuery(expectedPage, expectedPerPage, expectedInstitution);
 
         final var expectedPagination =
                 new Pagination<>(expectedPage, expectedPerPage, events.size(), events);
@@ -67,11 +69,13 @@ class ListEventsUseCaseTest extends UseCaseTest {
     public void dataAConsultaValida_quandoChamarListarEventosSemEventos_deveRetornarAListaVazia() {
         final var events = List.<Event>of();
 
+        final var expectedInstitution = InstitutionID.unique();
         final var expectedPage = 0;
         final var expectedPerPage = 10;
 
+
         final var aQuery =
-                new SearchQuery(expectedPage, expectedPerPage);
+                new EventSearchQuery(expectedPage, expectedPerPage, expectedInstitution);
 
         final var expectedPagination =
                 new Pagination<>(expectedPage, expectedPerPage, events.size(), events);
@@ -93,13 +97,16 @@ class ListEventsUseCaseTest extends UseCaseTest {
 
     @Test
     public void dataAConsultaValida_quandoOcorrerErroDeGateway_deveRetornarError() {
-        final var expectedPage = 0;
-        final var expectedPerPage = 10;
 
         final var expectedErrorMessage = "Gateway error";
 
+        final var expectedInstitution = InstitutionID.unique();
+        final var expectedPage = 0;
+        final var expectedPerPage = 10;
+
+
         final var aQuery =
-                new SearchQuery(expectedPage, expectedPerPage);
+                new EventSearchQuery(expectedPage, expectedPerPage, expectedInstitution);
 
         when(eventGateway.findAll(eq(aQuery)))
                 .thenThrow(new IllegalStateException(expectedErrorMessage));

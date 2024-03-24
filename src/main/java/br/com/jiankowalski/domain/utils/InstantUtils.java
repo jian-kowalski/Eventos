@@ -4,6 +4,7 @@ import br.com.jiankowalski.domain.exceptions.DomainException;
 import br.com.jiankowalski.domain.validation.Error;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
@@ -29,7 +30,9 @@ public final class InstantUtils {
         if (startAt == null || finishAt == null) {
             return false;
         }
-        return startAt.isAfter(finishAt);
+        final var minDate = asLocalDate(startAt);
+        final var maxDate = asLocalDate(finishAt);
+        return minDate.isAfter(maxDate);
     }
 
     public static String asString(Instant date) {
@@ -37,6 +40,13 @@ public final class InstantUtils {
             return null;
         }
         return FORMAT_DATE_TIME.format(date.atZone(ZONE_ID).toLocalDateTime());
+    }
+
+    public static LocalDate asLocalDate(final Instant instant) {
+        if (instant == null) {
+            return null;
+        }
+        return LocalDate.ofInstant(instant, ZONE_ID);
     }
 
     public static Instant asInstant(final String date) {

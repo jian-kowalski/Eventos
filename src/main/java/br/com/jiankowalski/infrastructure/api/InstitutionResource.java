@@ -2,28 +2,33 @@ package br.com.jiankowalski.infrastructure.api;
 
 import br.com.jiankowalski.application.institution.create.CreateInstitutionCommand;
 import br.com.jiankowalski.application.institution.create.CreateInstitutionUseCase;
+import br.com.jiankowalski.application.institution.list.ListInstitutionUseCase;
 import br.com.jiankowalski.domain.exceptions.NotificationException;
 import br.com.jiankowalski.domain.institution.InstitutionType;
 import br.com.jiankowalski.domain.validation.Error;
 import br.com.jiankowalski.infrastructure.institution.models.CreateInstitutionRequest;
-import jakarta.ws.rs.Consumes;
-import jakarta.ws.rs.POST;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import br.com.jiankowalski.infrastructure.institution.models.InstitutionListResponse;
+import br.com.jiankowalski.infrastructure.institution.presenters.InstitutionApiPresenter;
+import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.MediaType;
 import jakarta.ws.rs.core.UriInfo;
 import org.jboss.resteasy.reactive.RestResponse;
 
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-@Path("/institutions")
+@Path("institutions")
 public class InstitutionResource {
 
     private final CreateInstitutionUseCase createInstitutionUseCase;
+    private final ListInstitutionUseCase listInstutionUseCase;
 
-    public InstitutionResource(final CreateInstitutionUseCase createInstitutionUseCase) {
+    public InstitutionResource(final CreateInstitutionUseCase createInstitutionUseCase,
+                               final ListInstitutionUseCase listInstutionUseCase) {
         this.createInstitutionUseCase = Objects.requireNonNull(createInstitutionUseCase);
+        this.listInstutionUseCase = Objects.requireNonNull(listInstutionUseCase);
     }
 
     @POST
@@ -36,5 +41,12 @@ public class InstitutionResource {
         final var aCommand = CreateInstitutionCommand.of(request.name(), aType);
         final var output = this.createInstitutionUseCase.execute(aCommand);
         return RestResponse.created(uriInfo.getAbsolutePathBuilder().path(output.id()).build());
+    }
+
+    @GET
+    public Set<InstitutionListResponse> listInstitutions() {
+        return listInstutionUseCase.execute().stream()
+                .map(InstitutionApiPresenter::present)
+                .collect(Collectors.toSet());
     }
 }

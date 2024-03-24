@@ -1,11 +1,13 @@
 package br.com.jiankowalski.infrastructure.event.models;
 
+import java.time.Instant;
+
 public record EventListResponse(
         String id,
         String name,
         boolean active,
-        String startAt,
-        String finishAt,
-        String createdAt
+        Instant startAt,
+        Instant finishAt,
+        Instant createdAt
 ) {
 }

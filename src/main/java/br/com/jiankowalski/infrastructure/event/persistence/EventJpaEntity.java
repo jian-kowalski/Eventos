@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.time.Instant;
+import java.util.Objects;
 
 @Entity
 @Table(name = "events")
@@ -24,22 +25,22 @@ public class EventJpaEntity {
     @Column(name = "active", nullable = false)
     private boolean active;
 
-    @Column(name = "start_at", nullable = false, columnDefinition = "DATETIME(6)")
+    @Column(name = "start_at", nullable = false)
     private Instant startAt;
 
-    @Column(name = "finish_at", nullable = false, columnDefinition = "DATETIME(6)")
+    @Column(name = "finish_at", nullable = false)
     private Instant finishAt;
 
     @Column(name = "institution_id", nullable = false)
     private String institutionId;
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "DATETIME(6)")
+    @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
-    @Column(name = "updated_at", nullable = false, columnDefinition = "DATETIME(6)")
+    @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
 
-    @Column(name = "deleted_at", columnDefinition = "DATETIME(6)")
+    @Column(name = "deleted_at")
     private Instant deletedAt;
 
 
@@ -166,5 +167,18 @@ public class EventJpaEntity {
 
     public void setDeletedAt(Instant deletedAt) {
         this.deletedAt = deletedAt;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        EventJpaEntity that = (EventJpaEntity) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
     }
 }

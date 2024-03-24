@@ -9,6 +9,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.transaction.Transactional;
 
 import java.util.Objects;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class InstitutionPostgresGateway implements InstitutionGateway {
@@ -31,5 +33,11 @@ public class InstitutionPostgresGateway implements InstitutionGateway {
     @Override
     public boolean existsById(final InstitutionID id) {
         return institutionRepository.findByIdOptional(id.getValue()).isPresent();
+    }
+
+    @Override
+    public Set<Institution> findAll() {
+        return institutionRepository.findAll()
+                .stream().map(InstitutionJpaEntity::toAggregate).collect(Collectors.toSet());
     }
 }

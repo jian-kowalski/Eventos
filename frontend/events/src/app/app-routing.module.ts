@@ -1,12 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { EventsComponent } from './events/events/events.component';
+
 
 const routes: Routes = [
-  {path: '', redirectTo: 'events', pathMatch: 'full'},
-  {path: 'events',
-  loadChildren: () => import('./events/events.module').then(m => m.EventsModule),
-  component: EventsComponent},
+  {path: '', pathMatch: 'full',  redirectTo: 'institutions'},
+  {
+    path: 'institutions', loadChildren: ()=> import('./institutions/institutions.module').then(m => m.InstitutionsModule)
+  },
+
+  {
+    path: 'events', loadChildren: ()=> import('./events/events.module').then(m => m.EventsModule)
+  },
 ];
 
 @NgModule({

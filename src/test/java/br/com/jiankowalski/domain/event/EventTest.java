@@ -17,9 +17,31 @@ class EventTest {
     @Test
     public void dadosParametrosValidos_quandoChamarNovoEvento_deveRetornarOEventoInstanciado() {
         final var expectedName = "Contratação";
-        final var expectedIsActive = false;
+        final var expectedIsActive = true;
         final var expectedStartDate = InstantUtils.now().minus(1, ChronoUnit.DAYS);
         final var expectedEndDate = InstantUtils.now().plus(1, ChronoUnit.DAYS);
+        final var expectedInstitutionID = InstitutionID.from(IdUtils.uuid());
+
+        final var actualEvent = Event.newEvent(expectedName, expectedInstitutionID, expectedStartDate, expectedEndDate);
+
+        Assertions.assertNotNull(actualEvent);
+        Assertions.assertNotNull(actualEvent.getId());
+        Assertions.assertEquals(expectedName, actualEvent.getName());
+        Assertions.assertEquals(expectedIsActive, actualEvent.isActive());
+        Assertions.assertEquals(expectedInstitutionID, actualEvent.getInstitutionID());
+        Assertions.assertEquals(expectedStartDate, actualEvent.getStartAt());
+        Assertions.assertEquals(expectedEndDate, actualEvent.getFinishAt());
+        Assertions.assertNotNull(actualEvent.getCreatedAt());
+        Assertions.assertNotNull(actualEvent.getUpdatedAt());
+        Assertions.assertNull(actualEvent.getDeletedAt());
+    }
+
+    @Test
+    public void dadosParametrosValidos_quandoChamarNovoEventoComDataPassada_deveRetornarOEventoInstanciado() {
+        final var expectedName = "Contratação";
+        final var expectedIsActive = false;
+        final var expectedStartDate = InstantUtils.now().minus(5, ChronoUnit.DAYS);
+        final var expectedEndDate = InstantUtils.now().minus(4, ChronoUnit.DAYS);
         final var expectedInstitutionID = InstitutionID.from(IdUtils.uuid());
 
         final var actualEvent = Event.newEvent(expectedName, expectedInstitutionID, expectedStartDate, expectedEndDate);

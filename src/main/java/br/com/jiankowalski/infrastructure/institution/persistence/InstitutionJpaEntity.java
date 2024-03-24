@@ -23,7 +23,7 @@ public class InstitutionJpaEntity {
     private InstitutionType type;
 
 
-    @Column(name = "created_at", nullable = false, columnDefinition = "DATETIME(6)")
+    @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
 
