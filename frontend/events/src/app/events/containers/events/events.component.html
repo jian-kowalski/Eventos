@@ -2,22 +2,46 @@
   <mat-toolbar color="primary">Listando eventos</mat-toolbar>
 
   <mat-card-content>
-  <div class="mat-elevation-z8" *ngIf="events$ | async as eventPage; else loading">
-    <app-events-list
-      [events]="eventPage.items"
-      (add)="add()">
-    </app-events-list>
+    <div *ngIf="institutions$ | async as institutions; else loading">
+      <form>
+        <div class="filter-row">
+          <mat-form-field>
+            <mat-label>Instituição</mat-label>
+            <mat-select [(ngModel)]="id" name="institution">
+              <div *ngFor="let institution of institutions">
+                <mat-option [value]="institution.id">{{
+                  institution.name
+                }}</mat-option>
+              </div>
+            </mat-select>
+          </mat-form-field>
 
-    <mat-paginator
-      [pageSizeOptions]="[5, 10, 15]"
-      showFirstLastButtons
-      [length]="eventPage.totalElements"
-      [pageIndex]="pageIndex"
-      [pageSize]="pageSize"
-      (page)="refresh($event)"
-      aria-label="Select page of courses"></mat-paginator>
-
-  </div>
+          <button mat-raised-button color="primary" (click)="onFilter()">
+            <mat-icon>filter_list</mat-icon>
+          </button>
+          <button mat-raised-button color="primary" (click)="add()">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+    <div
+      class="mat-elevation-z8"
+      *ngIf="events$ | async as eventPage; else loading"
+    >
+      <app-events-list [events]="eventPage.items">
+      </app-events-list>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 15]"
+        showFirstLastButtons
+        [length]="eventPage.totalElements"
+        [pageIndex]="pageIndex"
+        [pageSize]="pageSize"
+        (page)="refresh($event)"
+        aria-label="Selecione os pág dos eventos"
+      >
+      </mat-paginator>
+    </div>
   </mat-card-content>
   <ng-template #loading>
     <div class="loading-spinner">

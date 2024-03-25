@@ -12,7 +12,7 @@ export class InstitutionsService {
   private readonly API = 'http://127.0.0.1:8080/institutions';
 
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   list() {
     return this.httpClient.get<Institution[]>(this.API).pipe(first());
@@ -23,7 +23,7 @@ export class InstitutionsService {
   }
 
   save(record: Institution) {
-   return this.httpClient.post<Institution>(this.API, record).pipe(first());
+    return this.httpClient.post<Institution>(this.API, record).pipe(first());
   }
 
 }

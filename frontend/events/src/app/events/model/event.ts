@@ -5,4 +5,5 @@ export interface Event {
   startAt: string;
   finishAt: string;
   createdAt: string;
+  institution: string
 }

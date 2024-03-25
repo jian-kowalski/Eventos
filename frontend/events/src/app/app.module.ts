@@ -1,14 +1,18 @@
-import { NgModule } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+import localePt from '@angular/common/locales/pt';
+import { LOCALE_ID, NgModule } from '@angular/core';
+import { MatNativeDateModule, NativeDateAdapter } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import { HttpClientModule } from '@angular/common/http';
 import { AppMaterialModule } from './shared/app-material/app-material.module';
 
-
+registerLocaleData(localePt);
 @NgModule({
   declarations: [
     AppComponent
@@ -20,9 +24,13 @@ import { AppMaterialModule } from './shared/app-material/app-material.module';
     MatToolbarModule,
     HttpClientModule,
     AppMaterialModule,
-
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    NativeDateAdapter,
+    { provide: LOCALE_ID, useValue: 'pt-BR' }
+  ],
+  bootstrap: [AppComponent ]
 })
 export class AppModule { }

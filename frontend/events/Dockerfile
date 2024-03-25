@@ -1,12 +1,14 @@
-FROM node:16.20.2-alpine3.18
+FROM node:16
 
-RUN apk add --no-cache bash
+WORKDIR /app/portal/static
 
-RUN npm install
-RUN npm install -g @angular/cli
+RUN npm install --global http-server
 
-USER node
+COPY /dist/events /app/portal/static
 
-WORKDIR /home/node/app
+ENV PORT_SERV="4200" \
+    DNS="0.0.0.0"
 
-ENTRYPOINT [ "npm serve" ]
+EXPOSE $PORT_SERV
+
+CMD http-server -p ${PORT_SERV} -a ${DNS}

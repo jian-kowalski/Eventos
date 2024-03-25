@@ -31,7 +31,7 @@ export class InstitutionsFormComponent implements OnInit {
       id: [institution.id],
       name: [
         institution.name,
-        [Validators.required, Validators.minLength(5), Validators.maxLength(60)]
+        [Validators.required, Validators.minLength(5), Validators.maxLength(20)]
       ],
       type: [institution.type, [Validators.required]],
     });

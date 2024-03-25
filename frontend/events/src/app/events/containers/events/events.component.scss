@@ -11,3 +11,14 @@ mat-card {
   align-items: center;
   justify-content: center;
 }
+
+.filter-row {
+  display: table-cell;
+  max-width: 100%;
+}
+
+.filter-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+
