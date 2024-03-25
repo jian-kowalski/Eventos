@@ -1,4 +1,4 @@
-# events
+# Gerenciador de Eventos
 
 O Problema: 
 Crie um sistema CRUD onde os usuários podem cadastrar eventos com uma data de vigência (data inicial e data final). A partir dessa data, os eventos se tornam ativos automaticamente e ao final desta data são inativados. Cada evento pertence a uma instituição que pode ter um ou mais eventos.
