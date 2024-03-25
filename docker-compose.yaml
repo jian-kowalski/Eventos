@@ -35,9 +35,7 @@ services:
     image: jiankowalski/events-scheduler:latest
     depends_on:
       - api
-    extra_hosts:
-      - "host.docker.internal:172.17.0.1"
-
+  
 
   front:
     container_name: front
