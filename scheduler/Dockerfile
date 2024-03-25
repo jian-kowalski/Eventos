@@ -1,13 +1,10 @@
 FROM alpine:latest
 
-RUN apk --update add curl jq
+RUN apk --update add curl
 
-ENV URL=127.0.0.1:8080
-# Copiar o script para o contêiner
-COPY execute.sh /execute.sh
-# Tornar o script executável
-RUN chmod +x /execute.sh
+ADD execute.sh execute.sh
+ADD local.execute.sh local.execute.sh
 
+RUN chmod +x /local.execute.sh /execute.sh
 
-# Comando a ser executado quando o contêiner for iniciado
-CMD ["crond -f" ,"0   *   *   *  /execute.sh"]
+CMD ["./local.execute.sh"]

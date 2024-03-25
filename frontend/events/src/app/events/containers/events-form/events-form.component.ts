@@ -63,7 +63,6 @@ export class EventsFormComponent {
       },
       (e) => this.onError(e.error)
     );
-    // this.router.navigate(['events/view/', event.institution])
   }
 
 

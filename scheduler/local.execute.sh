@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export URL="localhost:8080/events"
+export URL="http://127.0.0.1:8080/events"
 
 while :; do
   ./execute.sh

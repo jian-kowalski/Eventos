@@ -1,0 +1,170 @@
+{
+	"info": {
+		"_postman_id": "157e4904-94b1-4cd0-b9c5-e4e630739b72",
+		"name": "Events",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7657563"
+	},
+	"item": [
+		{
+			"name": "Criar instituição",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"segunda\",\n    \"type\": \"CENTRAL\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/institutions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"institutions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar evento",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Contratação\",\n    \"startDate\": \"21/03/2024 12:28:46\",\n    \"endDate\": \"23/03/2024 12:28:46\",\n    \"institution\": \"cd7249e7c79d400280e674d51b8dd675\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar status",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/events",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Eventos",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Teste\",\n    // \"type\": \"CENTRAL\"\n    \"institutionId\" : \"0241c410dc904ccbb44aee19d1d96aee\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/events?institution=cd7249e7c79d400280e674d51b8dd675",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"events"
+					],
+					"query": [
+						{
+							"key": "perPage",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "institution",
+							"value": "cd7249e7c79d400280e674d51b8dd675"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Listar Instituições",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"name\": \"Teste\",\n    // \"type\": \"CENTRAL\"\n    \"institutionId\" : \"0241c410dc904ccbb44aee19d1d96aee\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/events/institution?institution=cd7249e7c79d400280e674d51b8dd675",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"events",
+						"institution"
+					],
+					"query": [
+						{
+							"key": "perPage",
+							"value": "2",
+							"disabled": true
+						},
+						{
+							"key": "institution",
+							"value": "cd7249e7c79d400280e674d51b8dd675"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
