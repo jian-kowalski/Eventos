@@ -32,10 +32,10 @@ services:
 
   cron:
     container_name: cronjob
+    network_mode: host
     image: jiankowalski/events-scheduler:latest
     depends_on:
       - api
-  
 
   front:
     container_name: front
@@ -44,8 +44,5 @@ services:
       - api
     ports:
       - "80:4200"
-    extra_hosts:
-      - "host.docker.internal:172.17.0.1"
-    
-
+  
 

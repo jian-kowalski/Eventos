@@ -7,6 +7,8 @@ import { PageEvent } from '@angular/material/paginator';
 import { EventPage } from '../../model/event-page';
 import { Institution } from 'src/app/institutions/model/Institution';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 export interface PeriodicElement {
   name: string;
@@ -32,6 +34,7 @@ export class EventsComponent implements OnInit {
 
   constructor(readonly eventsService: EventsService,
     readonly instituitionsService: InstitutionsService,
+    private dialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute) {
     this.institutions$ = this.instituitionsService.list();
@@ -65,10 +68,10 @@ export class EventsComponent implements OnInit {
     this.refresh();
   }
 
-  onError(errorMsg: string) {
-    // this.dialog.open(ErrorDialogComponent, {
-    //   data: errorMsg
-    // });
+  onError(errorMsg: any){
+    this.dialog.open(ErrorDialogComponent, {
+      data: errorMsg
+    });
   }
 
 }

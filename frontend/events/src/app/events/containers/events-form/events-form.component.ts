@@ -1,14 +1,15 @@
-import { Router } from '@angular/router';
 import { DatePipe, Location } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { Institution } from 'src/app/institutions/model/Institution';
 import { InstitutionsService } from 'src/app/institutions/services/institutions.service';
+import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
 
-import { EventsService } from '../../services/events.service';
 import { EventCreate } from '../../model/event-request';
+import { EventsService } from '../../services/events.service';
 
 @Component({
   selector: 'app-events-form',
@@ -25,9 +26,8 @@ export class EventsFormComponent {
     readonly service: EventsService,
     readonly instituitionsService: InstitutionsService,
     private snackBar: MatSnackBar,
-    // private dialog: MatDialog,
-    private location: Location,
-    private router: Router
+    private dialog: MatDialog,
+    private location: Location
   ) {
     this.institutions$ = this.instituitionsService.list();
   }
@@ -74,9 +74,9 @@ export class EventsFormComponent {
     this.snackBar.open('Salvo com sucesso!', '', { duration: 5000 });
   }
 
-  private onError(err: any) { }
-  //   this.dialog.open(ErrorDialogComponent, {
-  //     data: err,
-  //   });
-  // }
+  private onError(err: any) {
+    this.dialog.open(ErrorDialogComponent, {
+      data: err,
+    });
+  }
 }

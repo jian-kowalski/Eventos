@@ -21,6 +21,7 @@ export class InstitutionsComponent {
   constructor(
     private service: InstitutionsService,
     private router: Router,
+    private dialog: MatDialog,
     private route: ActivatedRoute) {
     this.institutions$ = this.service.list().pipe(
       catchError((error) => {
@@ -38,10 +39,10 @@ export class InstitutionsComponent {
     this.router.navigate(['events/view', id]);
   }
 
-  onError(errorMsg: string) {
-    // this.dialog.open(ErrorDialogComponent, {
-    //   data: errorMsg,
-    // });
+  onError(errorMsg: any) {
+    this.dialog.open(ErrorDialogComponent, {
+      data: errorMsg,
+    });
   }
 
 }

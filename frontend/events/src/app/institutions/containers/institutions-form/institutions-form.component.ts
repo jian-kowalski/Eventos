@@ -1,11 +1,12 @@
+import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, NonNullableFormBuilder, Validators } from '@angular/forms';
-import { InstitutionsService } from '../../services/institutions.service';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ErrorDialogComponent } from 'src/app/shared/components/error-dialog/error-dialog.component';
+
 import { Institution } from '../../model/Institution';
+import { InstitutionsService } from '../../services/institutions.service';
 
 @Component({
   selector: 'app-institutions-form',
@@ -19,14 +20,13 @@ export class InstitutionsFormComponent implements OnInit {
     private formBuilder: NonNullableFormBuilder,
     private service: InstitutionsService,
     private snackBar: MatSnackBar,
-    // private dialog: MatDialog,
     private location: Location,
-    private route: ActivatedRoute
+    private dialog: MatDialog,
   ) {
   }
 
   ngOnInit(): void {
-    const institution: Institution = {id: '', name: '', type: '', createdAt: ''};
+    const institution: Institution = { id: '', name: '', type: '', createdAt: '' };
     this.form = this.formBuilder.group({
       id: [institution.id],
       name: [
@@ -56,9 +56,9 @@ export class InstitutionsFormComponent implements OnInit {
     this.snackBar.open('Salvo com sucesso!', '', { duration: 5000 });
   }
 
-  private onError(err: any) {}
-  //   this.dialog.open(ErrorDialogComponent, {
-  //     data: err,
-  //   });
-  // }
+  private onError(err: any) {
+    this.dialog.open(ErrorDialogComponent, {
+      data: err,
+    });
+  }
 }

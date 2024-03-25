@@ -26,13 +26,21 @@ public final class InstantUtils {
         return Instant.now().truncatedTo(ChronoUnit.MICROS);
     }
 
-    public static boolean isAfterDate(final Instant startAt, final Instant finishAt) {
+    public static boolean isAfter(final Instant startAt, final Instant finishAt) {
         if (startAt == null || finishAt == null) {
             return false;
         }
         final var minDate = asLocalDate(startAt);
         final var maxDate = asLocalDate(finishAt);
         return minDate.isAfter(maxDate);
+    }
+    public static boolean isAfterOrEquals(final Instant startAt, final Instant finishAt) {
+        if (startAt == null || finishAt == null) {
+            return false;
+        }
+        final var minDate = asLocalDate(startAt);
+        final var maxDate = asLocalDate(finishAt);
+        return minDate.isAfter(maxDate) || minDate.isEqual(maxDate);
     }
 
     public static String asString(Instant date) {

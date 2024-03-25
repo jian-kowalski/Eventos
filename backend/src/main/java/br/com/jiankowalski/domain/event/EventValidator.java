@@ -35,7 +35,7 @@ class EventValidator extends Validator {
             this.validationHandler().append(new Error("A data de termino do evento não pode ser vazia"));
         }
 
-        if (InstantUtils.isAfterDate(startAt, finishAt)) {
+        if (InstantUtils.isAfter(startAt, finishAt)) {
             this.validationHandler().append(new Error("A data de termino do evento deve ser maior que a data de inicio"));
         }
 

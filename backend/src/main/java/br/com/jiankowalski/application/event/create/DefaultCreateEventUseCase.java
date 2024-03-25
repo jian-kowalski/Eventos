@@ -44,6 +44,6 @@ public class DefaultCreateEventUseCase extends CreateEventUseCase {
         if (exists) {
             return notification;
         }
-        return notification.append(new Error("Não foi encontrada a instituição com o id: " + aID));
+        return notification.append(new Error("Não foi encontrada a instituição com o id: " + aID.getValue()));
     }
 }

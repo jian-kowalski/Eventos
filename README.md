@@ -28,9 +28,12 @@ Ativação dos Eventos: Existem muitas formas para resolver esse problema, eu im
 
  2 - Crei um caso de uso de atualização de eventos, que pode ser chamado através de um cronjob, scheduler, fila de mensageria, eu optei por fazer via chamada rest. Esse caso de uso processa de 10 em 10 registros, onde ele faz uma busca paginada no banco, com o filtro da data de hoje considerando a data de início e a data de término + 1, isso permite que essa rotina possa ser executada somente 1 vez ao dia de preferência no início da madrugada. Nesse caso, ela vai ativar todos os eventos do dia e terminar todos os eventos do dia anterior.
 
-Para executar a atualização dos eventos basta chamar o endpoint de atualização de eventos que está disponível no projeto
+Como exemplo de funcionamento de um job ou execução via agendador eu deixei um projeto chamado scheduler que realiza a atualização do status de minuto em minuto.
+
 
 BUILD:
+
+Para execução dos testes : ./mvnw test
 
 ./mvnw clean package -DskipTests -Dquarkus.container-image.build=true
 

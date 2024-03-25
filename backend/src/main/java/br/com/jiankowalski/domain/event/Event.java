@@ -83,7 +83,7 @@ public class Event extends AggregateRoot<EventID> {
 
     public void updateStatus() {
         final var now = InstantUtils.now();
-        this.active = InstantUtils.isAfterDate(now, startAt) && InstantUtils.isAfterDate(finishAt, now);
+        this.active = InstantUtils.isAfterOrEquals(now, startAt) && InstantUtils.isAfterOrEquals(finishAt, now);
     }
 
     public InstitutionID getInstitutionID() {
